@@ -1,0 +1,16 @@
+Procedure
+Open terminal / command prompt
+Run commands:
+Check IP:
+ip a
+ifconfig
+Test connectivity:
+ping google.com
+Trace route:
+traceroute google.com
+DNS lookup:
+nslookup google.com
+View connections:
+netstat -tulnp
+ARP table:
+arp -a
