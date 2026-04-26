@@ -1,0 +1,62 @@
+import random
+TARGET = "I love ECS"
+TARGET_LENGTH = len(TARGET)
+
+POPULATION_SIZE = 100
+MUTATION_RATE = 0.01
+MAX_GENERATIONS = 10000
+
+
+def fitness(individual):
+    return sum(1 for a, b in zip(individual, TARGET) if a == b)
+
+def create_individual():
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+    return "".join(random.choice(chars) for _ in range(TARGET_LENGTH))
+
+def create_population():
+    return [create_individual() for _ in range(POPULATION_SIZE)]
+
+def select_population(population):
+    population.sort(key=lambda x: fitness(x), reverse=True)
+    return population[:POPULATION_SIZE // 2]  # Keep top 50%
+
+def crossover(parent1, parent2):
+    crossover_point = random.randint(0, TARGET_LENGTH - 1)
+    child = parent1[:crossover_point] + parent2[crossover_point:]
+    return child
+
+def mutate(individual):
+    individual = list(individual)
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+    for i in range(TARGET_LENGTH):
+        if random.random() < MUTATION_RATE:
+            individual[i] = random.choice(chars)
+    return "".join(individual)
+def genetic_algorithm():
+    population = create_population()
+    generation = 0
+    while generation < MAX_GENERATIONS:
+        population = select_population(population)
+        new_population = []
+        while len(new_population) < POPULATION_SIZE:
+            parent1, parent2 = random.sample(population, 2)
+            child = crossover(parent1, parent2)
+            child = mutate(child)
+            new_population.append(child)
+
+        population = new_population
+        generation += 1
+
+        best_individual = max(population, key=lambda x: fitness(x))
+        print(
+            f"Generation {generation}: {best_individual} "
+            f"(Fitness: {fitness(best_individual)})"
+        )
+
+        if best_individual == TARGET:
+            print(f"\nTarget string achieved: {best_individual}")
+            break
+
+# Run the algorithm
+genetic_algorithm()
