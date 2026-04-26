@@ -1,0 +1,48 @@
+Aim
+
+To analyze and represent an AI problem using PEAS (Performance, Environment, Actuators, Sensors) and identify suitable agent architecture.
+
+Theory (Short & Viva-ready)
+PEAS stands for:
+Performance Measure → How success is measured
+Environment → Where agent operates
+Actuators → Outputs/actions
+Sensors → Inputs from environment
+Used to define task environment of intelligent agent
+Example in your file: Smartwatch / Automated Car
+Procedure
+Select an AI problem (e.g., Smartwatch / Self-driving car)
+Identify:
+Performance Measures
+Environment
+Actuators
+Sensors
+Represent all in structured format
+Decide suitable agent type (simple reflex, model-based, goal-based, etc.)
+Diagram (Important for marks)
+
+Draw this basic agent structure:
+
+Environment → Sensors → Agent → Actuators → Environment
+
+Label properly:
+
+Input = Sensors
+Output = Actuators
+Example (Write in record if needed)
+Smartwatch PEAS:
+Performance → accuracy, battery life
+Environment → human + surroundings
+Actuators → display, vibration
+Sensors → heart rate, GPS, accelerometer
+Code
+
+❌ No code in this experiment
+(If examiner asks, say: “This is a conceptual modeling experiment”)
+
+Observation
+Understood how to model real-world systems as agents
+Identified components of intelligent systems
+Conclusion
+
+PEAS representation helps in clearly defining an AI system by identifying performance, environment, sensors, and actuators, enabling better design of intelligent agents.
