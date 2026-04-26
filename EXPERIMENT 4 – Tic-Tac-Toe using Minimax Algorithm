@@ -1,0 +1,185 @@
+2 Humans Against each other
+def print_board(board):
+    print()
+    for i in range(3):
+        print(" ", board[i*3], "|", board[i*3+1], "|", board[i*3+2])
+        if i < 2:
+            print(" ---+---+---")
+    print()
+def check_winner(board):
+    winning_positions = [
+        [0,1,2], [3,4,5], [6,7,8],   
+        [0,3,6], [1,4,7], [2,5,8],   
+        [0,4,8], [2,4,6]            
+    ]
+
+    for pos in winning_positions:
+        a, b, c = pos
+        if board[a] == board[b] == board[c] and board[a] != " ":
+            return board[a]
+
+    if " " not in board:
+        return "Draw"
+
+    return None
+def play_game():
+    board = [" "] * 9
+    current_player = 1  
+
+    print("Tic Tac Toe - 2 Player Game")
+    print("Player 1 = X")
+    print("Player 2 = O")
+    print("""
+ 0 | 1 | 2
+---+---+---
+ 3 | 4 | 5
+---+---+---
+ 6 | 7 | 8
+""")
+
+    print_board(board)
+
+    while True:
+        symbol = "X" if current_player == 1 else "O"
+        print(f"Player {current_player}'s turn ({symbol})")
+
+        while True:
+            try:
+                pos = int(input("Enter position (0-8): "))
+                if pos < 0 or pos > 8:
+                    print("Position must be between 0 and 8.")
+                elif board[pos] != " ":
+                    print("Position already taken.")
+                else:
+                    board[pos] = symbol
+                    break
+            except:
+                print("Enter a valid number.")
+
+        print_board(board)
+
+        result = check_winner(board)
+
+        if result:
+            if result == "Draw":
+                print("🤝 Game Draw!")
+            elif result == "X":
+                print("🎉 Player 1 Wins!")
+            else:
+                print("🎉 Player 2 Wins!")
+            break
+        current_player = 2 if current_player == 1 else 1
+play_game()
+
+
+
+
+playing against Bot
+def print_board(board):
+    print()
+    for i in range(3):
+        print(" ", board[i*3], "|", board[i*3+1], "|", board[i*3+2])
+        if i < 2:
+            print("  --+---+--")
+    print()
+
+def check_winner(board):
+    winning_positions = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ]
+    for pos in winning_positions:
+        a, b, c = pos
+        if board[a] == board[b] == board[c] and board[a] != " ":
+            return board[a]
+    if " " not in board:
+        return "Draw"
+    return None
+
+def minimax(board, is_maximizing):
+    result = check_winner(board)
+    if result == "O": return 10
+    if result == "X": return -10
+    if result == "Draw": return 0
+
+    if is_maximizing:
+        best = -1000
+        for i in range(9):
+            if board[i] == " ":
+                board[i] = "O"
+                best = max(best, minimax(board, False))
+                board[i] = " "
+        return best
+    else:
+        best = 1000
+        for i in range(9):
+            if board[i] == " ":
+                board[i] = "X"
+                best = min(best, minimax(board, True))
+                board[i] = " "
+        return best
+
+def bot_move(board):
+    best_score = -1000
+    best_move = -1
+    for i in range(9):
+        if board[i] == " ":
+            board[i] = "O"
+            score = minimax(board, False)
+            board[i] = " "
+            if score > best_score:
+                best_score = score
+                best_move = i
+    return best_move
+
+def play_game():
+    board = [" "] * 9
+
+    print("Tic Tac Toe - Human vs Bot")
+    print("You = X  |  Bot = O")
+    print("""
+ 0 | 1 | 2
+---+---+---
+ 3 | 4 | 5
+---+---+---
+ 6 | 7 | 8
+""")
+
+    print_board(board)
+
+    while True:
+        # Human turn
+        print("Your turn (X)")
+        while True:
+            try:
+                pos = int(input("Enter position (0-8): "))
+                if pos < 0 or pos > 8:
+                    print("Position must be between 0 and 8.")
+                elif board[pos] != " ":
+                    print("Position already taken.")
+                else:
+                    board[pos] = "X"
+                    break
+            except ValueError:
+                print("Enter a valid number.")
+
+        print_board(board)
+        result = check_winner(board)
+        if result:
+            print("🎉 You win!" if result == "X" else "🤝 It's a draw!")
+            break
+
+        # Bot turn
+        print("Bot is thinking...")
+        move = bot_move(board)
+        board[move] = "O"
+        print(f"Bot played position {move}")
+        print_board(board)
+
+        result = check_winner(board)
+        if result:
+            print("🤖 Bot wins!" if result == "O" else "🤝 It's a draw!")
+            break
+
+play_game()
