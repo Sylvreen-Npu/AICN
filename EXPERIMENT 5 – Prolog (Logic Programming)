@@ -33,3 +33,6 @@ false.       % no classmates since they're in different courses
 ?- studying(X, Y).
 X = rahul, Y = math ;
 X = priya, Y = science.
+
+
+run this in 😘https://swish.swi-prolog.org
