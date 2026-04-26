@@ -1,0 +1,39 @@
+💖client side
+import socket
+host = '127.0.0.1'
+port = 12345
+# Create a socket object
+c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+c.connect((host, port))  # Connect to server
+while True:
+    data1 = input("Enter message for server: ")
+    c.send(data1.encode())  # Send message to server
+    if data1.lower() == 'exit':
+        break
+    data = c.recv(1024)  # Receive response from server
+    print("From server: " + data.decode())  # Decode received bytes
+c.close()
+print("Connection closed")
+
+
+💖server side
+import socket
+host = '0.0.0.0'
+port = 12345
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((host, port)) 
+s.listen(1) 
+print(f"Server listening on {host}:{port}...")
+c, addr = s.accept()
+print(f"A client is connected from {addr}")
+while True:
+    data = c.recv(1024)
+    if not data:
+        break
+    print("From client: " + data.decode())  
+    response = input("Enter response: ").strip()
+    if response.lower() == "exit":
+        break
+    c.send(response.encode()) 
+c.close()
+print("Connection closed")
