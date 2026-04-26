@@ -1,0 +1,53 @@
+DFS Code
+graph = {
+    'A': ['E', 'B'],
+    'E': ['F'],
+    'F': [],
+    'B': ['D', 'C'], 
+    'D': ['F'],
+    'C': []
+}
+
+def dfs(graph, current, goal, visited=None):
+    if visited is None:
+        visited = set()
+    print(current, end=" ")
+    visited.add(current)
+    if current == goal:
+        return True
+    for node in graph[current]:
+        if node not in visited:
+            if dfs(graph, node, goal, visited):
+                return True
+    return False
+
+dfs(graph, 'A', 'F')
+
+
+
+BFS Code
+from collections import deque
+graph = {
+ 'A': ['B', 'C', 'D'],
+ 'B': ['E', 'F'],
+ 'C': ['G', 'H'],
+ 'D': ['I'],
+ 'E': ['J', 'K'],
+ 'F': [],
+ 'G': ['L'],
+ 'H': [],
+ 'I': ['M'],
+ 'J': [], 'K': [], 'L': [], 'M': []
+}
+
+def bfs_all_paths(graph, start):
+    queue = deque([[start]])
+    while queue:
+        path = queue.popleft()
+        node = path[-1]
+        print(path)
+        for neighbor in graph[node]:
+            queue.append(path + [neighbor])
+
+bfs_all_paths(graph, 'A')
+
