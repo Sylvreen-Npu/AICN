@@ -1,0 +1,35 @@
+% Facts
+student(rahul).
+student(priya).
+
+course(math).
+course(science).
+
+enrolled(rahul, math).
+enrolled(priya, science).
+
+% Rules
+studying(X, Y) :-
+    student(X),
+    enrolled(X, Y).
+
+classmate(X, Y) :-
+    enrolled(X, Z),
+    enrolled(Y, Z),
+    X \= Y.
+
+
+
+bash
+?- studying(rahul, X).
+X = math.
+
+?- studying(priya, X).
+X = science.
+
+?- classmate(rahul, X).
+false.       % no classmates since they're in different courses
+
+?- studying(X, Y).
+X = rahul, Y = math ;
+X = priya, Y = science.
